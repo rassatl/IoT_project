@@ -1,0 +1,105 @@
+{
+    "lifeAndRound" : {
+        "labels": ["Round 1", "Round 2", "Round 3", "Round 4", "Round 5", "Round 6", "Round 7"],
+        "datasets": [
+          {
+            "label": "Player 1",
+            "data": [10, 9, 8, 3, 1, 0],
+            "borderColor": "rgb(75, 192, 192)"
+          },
+          {
+            "label": "Player 2",
+            "data": [10, 8, 6, 4, 2, 1, 0],
+            "borderColor": "rgb(255, 99, 132)"
+          },
+          {
+            "label": "Player 3",
+            "data": [10, 6, 4, 1, 0],
+            "borderColor": "rgb(255, 159, 64)"
+          }
+        ]
+    },
+    "logs": [
+        {
+            "player": "Player 1",
+            "round": 1,
+            "life": 10,
+            "damage": 0,
+            "heal": 0,
+            "action": "Start"
+        },
+        {
+            "player": "Player 2",
+            "round": 1,
+            "life": 10,
+            "damage": 0,
+            "heal": 0,
+            "action": "Start"
+        },
+        {
+            "player": "Player 3",
+            "round": 1,
+            "life": 10,
+            "damage": 0,
+            "heal": 0,
+            "action": "Start"
+        },
+        {
+            "player": "Player 1",
+            "round": 2,
+            "life": 10,
+            "damage": 0,
+            "heal": 0,
+            "action": "Attack"
+        },
+        {
+            "player": "Player 2",
+            "round": 2,
+            "life": 9,
+            "damage": 1,
+            "heal": 0,
+            "action": "Attack"
+        },
+        {
+            "player": "Player 3",
+            "round": 2,
+            "life": 10,
+            "damage": 0,
+            "heal": 0,
+            "action": "Attack"
+        },
+        {
+            "player": "Player 1",
+            "round": 3,
+            "life": 10,
+            "damage": 0,
+            "heal": 0,
+            "action": "Heal"
+        },
+        {
+            "player": "Player 2",
+            "round": 3,
+            "life": 9,
+            "damage": 0,
+            "heal": 0,
+            "action": "Heal"
+        },
+        {
+            "player": "Player 3",
+            "round": 3,
+            "life": 10,
+            "damage": 0,
+            "heal": 0,
+            "action": "Heal"
+        },
+        {
+            "player": "Player 1",
+            "round": 4,
+            "life": 10,
+            "damage": 0,
+            "heal": 0,
+            "action": "Attack"
+        }
+    ]
+  }
+  
