@@ -11,11 +11,20 @@ const fetchData = async () => {
         const responseReel = await fetch('dataReel.json');
         const jsonDataReel = await responseReel.json();
         displayChartsLifeAndRounds(jsonData['lifeAndRound']);
-        // displayLogs(jsonDataReel['enter_arena']);
+        displayLogs(jsonDataReel);
+        displayLeftBarGoldScoreBoard(jsonDataReel['gold']);
         // console.log(jsonDataReel['enter_arena']);
     } catch (error) {
         console.error('Erreur lors de la récupération des données JSON :', error);
     }
+};
+
+let sortedGold = ref([]);
+
+const displayLeftBarGoldScoreBoard = (gold) => {
+    sortedGold.value = gold
+        .flatMap(([timestamp, goldData]) => Object.entries(goldData).map(([playerId, playerGold]) => ({ playerId, playerGold })))
+        .sort((a, b) => b.playerGold - a.playerGold);
 };
 
 // Creer un graphique pour afficher les points de vie en fonction des rounds
@@ -57,13 +66,24 @@ const displayChartsLifeAndRounds = (datas) => {
 const displayLogs = (logs) => {
     const logsDiv = document.getElementById('logs');
     logsDiv.innerHTML = '<ul>';
-
-    logs.forEach((log) => {
+    logs['enter_arena'].forEach((log) => {
         const logItem = document.createElement('li');
-        logItem.textContent = `${log.player} - Round ${log.round}: ${log.action}`;
+        logItem.textContent = `${log[1]['cid']} from Team ${log[1]['teamid']} as join the arena.`;
         logsDiv.appendChild(logItem);
     });
-
+    logsDiv.innerHTML += '<p>----------</p>';
+    logs['set_action'].forEach((log) => {
+        const logItem = document.createElement('li');
+        logItem.textContent = `action : ${log[1]['action']} as been given to ${log[1]['cid']} from the ${log[1]['teamid']} team.`;
+        logsDiv.appendChild(logItem);
+    });
+    logsDiv.innerHTML += '<p>----------</p>';
+    logs['set_target'].forEach((log) => {
+        const logItem = document.createElement('li');
+        logItem.textContent = `The player ${log[1]['cid']} from the ${log[1]['teamid']} team aimed at ${log[1]['target']}`;
+        logsDiv.appendChild(logItem);
+    });
+    logsDiv.innerHTML += '<p>----------</p>';
     logsDiv.innerHTML += '</ul>';
 };
 
@@ -165,11 +185,28 @@ onMounted(() => {
 
         </div>
         <div class="flex grow h-full w-full gap-3">
-            <div class="skeleton h-full w-[20%]">
-                <p>aze</p>
+            <div class="skeleton h-full w-[20%]" id="goldSB">
+                <!-- <p>Gold Score Board</p> -->
+                <table class="table w-full">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Player ID</th>
+                            <th>Gold</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(player, index) in sortedGold.slice(0, 3)" :key="player.playerId"
+                            :class="{ 'hover:bg-gray-200': index < 3 }">
+                            <th>{{ index + 1 }}</th>
+                            <td>{{ player.playerId }}</td>
+                            <td>{{ player.playerGold }}</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
             <div class="skeleton h-full grow grid grid-cols-2 gap-3 p-3">
-                <div class="mockup-code h-full w-full" id="logs">
+                <div class="mockup-code h-full w-full" id="logs" style="overflow-y:auto;">
                 </div>
                 <div class="h-full w-full grid grid-rows-2 gap-3">
                     <div class="w-full h-full flex justify-center">
@@ -178,7 +215,8 @@ onMounted(() => {
                     <div class="w-full h-full">
                         <canvas id="stats"></canvas>
                     </div>
+                </div>
             </div>
         </div>
     </div>
-</div></template> 
+</template> 
